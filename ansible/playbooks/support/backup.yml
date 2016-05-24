@@ -1,0 +1,19 @@
+---
+
+- name: Backup Web
+  hosts: "{{ hosts }}"
+  gather_facts: no
+
+  tasks:
+    - name: tgz domain folder
+      command: "tar -czf ../{{ run_timestamp }}-{{ env }}-sanfilippoinitiative.tgz ."
+      args:
+        chdir: "{{ sanfilippoinitiative.root_dir }}"
+
+- name: Backup DB
+  hosts: "{{ hosts }}"
+  gather_facts: no
+
+  tasks:
+    - name: noop
+      command: echo noop

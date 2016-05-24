@@ -1,0 +1,1 @@
+s2 ansible_host=s2.mydevil.net ansible_user=woledzki ansible_python_interpreter=/usr/local/bin/python
