@@ -1,0 +1,22 @@
+---
+
+- name: Restore Web from backup
+  hosts: "{{ hosts }}"
+  gather_facts: no
+
+  tasks:
+    - name: Re-create public_html
+      file:
+        mode: "{{ item.mode | default(omit) }}"
+        path: "{{ sanfilippoinitiative.root_dir }}/public_html"
+        state: "{{ item.state }}"
+      with_items:
+        - state: absent
+        - state: directory
+          mode: "0755"
+
+    - name: Unarchive {{ backup_file }}
+      unarchive:
+        dest: "{{ sanfilippoinitiative.root_dir }}/public_html/"
+        mode: 0750
+        src: "{{ pwd }}/ansible/files/backup/{{ backup_file }}"

@@ -10,6 +10,12 @@
       args:
         chdir: "{{ sanfilippoinitiative.root_dir }}"
 
+    - name: download file
+      fetch:
+        dest: "{{ pwd }}/ansible/files/backup/"
+        flat: yes
+        src: "{{ sanfilippoinitiative.root_dir }}/../{{ run_timestamp }}-{{ env }}-sanfilippoinitiative.tgz"
+
 - name: Backup DB
   hosts: "{{ hosts }}"
   gather_facts: no

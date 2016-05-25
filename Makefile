@@ -2,6 +2,7 @@
 .PHONY: help
 
 ENV = dev
+PWD = $(shell pwd)
 RUN_TIMESTAMP = $(shell date +%Y.%m.%d.%H%M)
 PLAYBOOK ?=
 
@@ -16,14 +17,18 @@ clean:
 
 ## Runs any playbook
 # Examples: make playbook PLAYBOOK=support/backup.yml
+#           make playbook PLAYBOOK=support/restore.yml EXTRAS='-ebackup_file=initial.tgz'
 playbook:
 	echo $(RUN_TIMESTAMP)
 	ansible-playbook -i ansible/inventory/mydevil \
 		--extra-vars hosts=s2 \
 		--extra-vars env=$(ENV) \
+		--extra-vars pwd=$(PWD) \
 		--extra-vars run_timestamp=$(RUN_TIMESTAMP) \
 		--extra-vars @ansible/vars/environment/$(ENV)/services.yml \
+		$(EXTRAS) \
 		ansible/playbooks/$(PLAYBOOK)
+
 ## Prints this help
 help:
 	@grep -h -E '^#' -A 1 $(MAKEFILE_LIST) | grep -v "-" | \
