@@ -2,3 +2,7 @@
 
 sanfilippoinitiative:
   root_dir: /home/woledzki/domains/dev.sanfilippoinitiative.org
+  db:
+    host: mysql2.mydevil.net
+    name: m13054_d_sfi
+    username: m13054_d_sfi

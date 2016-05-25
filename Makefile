@@ -17,7 +17,7 @@ clean:
 
 ## Runs any playbook
 # Examples: make playbook PLAYBOOK=support/backup.yml
-#           make playbook PLAYBOOK=support/restore.yml EXTRAS='-ebackup_file=initial.tgz'
+#           make playbook PLAYBOOK=support/restore.yml ENV=dev EXTRAS='-ebackup_name=dev'
 playbook:
 	echo $(RUN_TIMESTAMP)
 	ansible-playbook -i ansible/inventory/mydevil \
@@ -26,6 +26,7 @@ playbook:
 		--extra-vars pwd=$(PWD) \
 		--extra-vars run_timestamp=$(RUN_TIMESTAMP) \
 		--extra-vars @ansible/vars/environment/$(ENV)/services.yml \
+		--extra-vars @ansible/vars/environment/$(ENV)/secrets.yml \
 		$(EXTRAS) \
 		ansible/playbooks/$(PLAYBOOK)
 

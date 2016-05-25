@@ -5,18 +5,31 @@
   gather_facts: no
 
   tasks:
-    - name: Re-create public_html
-      file:
-        mode: "{{ item.mode | default(omit) }}"
-        path: "{{ sanfilippoinitiative.root_dir }}/public_html"
-        state: "{{ item.state }}"
-      with_items:
-        - state: absent
-        - state: directory
-          mode: "0755"
+    # - name: Re-create public_html
+    #   file:
+    #     mode: "{{ item.mode | default(omit) }}"
+    #     path: "{{ sanfilippoinitiative.root_dir }}/public_html"
+    #     state: "{{ item.state }}"
+    #   with_items:
+    #     - state: absent
+    #     - state: directory
+    #       mode: "0755"
+    #
+    # - name: "Unarchive {{ backup_name }}.tgz"
+    #   unarchive:
+    #     dest: "{{ sanfilippoinitiative.root_dir }}/public_html/"
+    #     mode: 0750
+    #     src: "{{ pwd }}/ansible/files/backup/{{ backup_name }}.tgz"
 
-    - name: Unarchive {{ backup_file }}
-      unarchive:
-        dest: "{{ sanfilippoinitiative.root_dir }}/public_html/"
-        mode: 0750
-        src: "{{ pwd }}/ansible/files/backup/{{ backup_file }}"
+    - name: "Copy {{ backup_name }}.sql"
+      copy:
+        src: "{{ pwd }}/ansible/files/backup/{{ backup_name}}.sql"
+        dest: "{{ sanfilippoinitiative.root_dir }}"
+
+    - name: "Import DB"
+      shell: "cat \"{{ sanfilippoinitiative.root_dir }}/{{ backup_name}}.sql\"
+             | mysql
+               -u{{ sanfilippoinitiative.db.username }}
+               -p{{ sanfilippoinitiative.db.password }}
+               -h{{ sanfilippoinitiative.db.host }}
+               {{ sanfilippoinitiative.db.name }}"
