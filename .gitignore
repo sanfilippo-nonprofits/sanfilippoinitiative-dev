@@ -1,0 +1,14 @@
+##
+# IDEs, editors
+.buildpath
+.project
+.settings/
+*.swp
+
+
+
+
+##
+# Configuration, build, ...
+.vaultpass
+/ansible/vendor

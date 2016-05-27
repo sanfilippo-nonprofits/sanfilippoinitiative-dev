@@ -15,11 +15,23 @@ deps:
 clean:
 	rm -rf ansible/vendor/*
 
+## Configures application
+# Examples: make configure ENV=dev ROLE=sanfilippoinitiative
+configure:
+	ansible-playbook -i ansible/inventory/mydevil \
+		--extra-vars hosts=s2 \
+		--extra-vars env=$(ENV) \
+		--extra-vars pwd=$(PWD) \
+		--extra-vars @ansible/vars/environment/$(ENV)/services.yml \
+		--extra-vars @ansible/vars/environment/$(ENV)/secrets.yml \
+		--tags configure \
+		$(EXTRAS) \
+		ansible/playbooks/$(ROLE).yml
+
 ## Runs any playbook
 # Examples: make playbook PLAYBOOK=support/backup.yml
 #           make playbook PLAYBOOK=support/restore.yml ENV=dev EXTRAS='-ebackup_name=dev'
 playbook:
-	echo $(RUN_TIMESTAMP)
 	ansible-playbook -i ansible/inventory/mydevil \
 		--extra-vars hosts=s2 \
 		--extra-vars env=$(ENV) \

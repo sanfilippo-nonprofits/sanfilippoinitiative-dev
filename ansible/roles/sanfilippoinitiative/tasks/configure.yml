@@ -1,0 +1,13 @@
+---
+
+- name:
+  lineinfile:
+    dest: "{{ sanfilippoinitiative.root_dir }}/public_html/wp-config.php"
+    regexp: "^define\\('{{ item.key }}', '.*?'\\);"
+    line: "define('{{ item.key }}', '{{ item.value }}');"
+  no_log: yes
+  with_dict:
+    DB_NAME: "{{ sanfilippoinitiative.db.name }}"
+    DB_USER: "{{ sanfilippoinitiative.db.username }}"
+    DB_PASSWORD: "{{ sanfilippoinitiative.db.password }}"
+    DB_HOST: "{{ sanfilippoinitiative.db.host }}"

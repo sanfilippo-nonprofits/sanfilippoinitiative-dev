@@ -1,0 +1,8 @@
+---
+
+- name: Sanfilippo Initiative
+  hosts: "{{ hosts }}"
+  gather_facts: no
+
+  roles:
+    - role: sanfilippoinitiative
